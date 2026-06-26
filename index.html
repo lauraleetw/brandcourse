@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>李逸萍｜數位內容企劃設計指導・多媒體設計顧問</title>
+  <meta name="description" content="李逸萍，康百企業有限公司互動網路多媒體部企劃設計指導。專注於 UI/UX、APP 視覺、多媒體導覽、文化內容轉譯與數據導向設計顧問服務。" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Tailwind CSS CDN -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'sans-serif'],
+          },
+          colors: {
+            techBlue: '#2563eb',
+            premiumPurple: '#7c3aed',
+            mint: '#10b981',
+            ink: '#0f172a',
+            softInk: '#475569',
+            cloud: '#f8fafc'
+          },
+          boxShadow: {
+            glow: '0 20px 80px rgba(37, 99, 235, 0.16)',
+            mintGlow: '0 0 0 1px rgba(16,185,129,.35), 0 18px 60px rgba(16,185,129,.28)',
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --tech-blue: #2563eb;
+      --premium-purple: #7c3aed;
+      --mint: #10b981;
+      --ink: #0f172a;
+      --soft-ink: #475569;
+      --line: rgba(37, 99, 235, 0.12);
+      --glass: rgba(255, 255, 255, 0.72);
+    }
+
+    * {
+      scroll-behavior: smooth;
+    }
+
+    html {
+      scroll-padding-top: 92px;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(124, 58, 237, 0.10), transparent 34%),
+        radial-gradient(circle at 82% 10%, rgba(37, 99, 235, 0.12), transparent 32%),
+        radial-gradient(circle at 72% 78%, rgba(16, 185, 129, 0.10), transparent 35%),
+        linear-gradient(180deg, #ffffff 0%, #f8fafc 48%, #ffffff 100%);
+      overflow-x: hidden;
+    }
+
+    /* ========= Global Background ========= */
+    .site-bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: -5;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(37, 99, 235, 0.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(37, 99, 235, 0.055) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,.08));
+    }
+
+    .ambient-orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(18px);
+      opacity: 0.55;
+      animation: floatOrb 9s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(18px, -24px, 0) scale(1.05); }
+    }
+
+    #particleCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: -4;
+      pointer-events: none;
+    }
+
+    /* ========= Glass Components ========= */
+    .glass {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      box-shadow: 0 18px 70px rgba(15, 23, 42, 0.06);
+    }
+
+    .glass-strong {
+      background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(248,250,252,.68));
+      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px);
+      border: 1px solid rgba(37, 99, 235, 0.14);
+      box-shadow: 0 22px 90px rgba(15, 23, 42, 0.08);
+    }
+
+    .gradient-border {
+      position: relative;
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      background:
+        linear-gradient(#ffffff, #ffffff) padding-box,
+        linear-gradient(135deg, rgba(37,99,235,.25), rgba(124,58,237,.20), rgba(16,185,129,.18)) border-box;
+    }
+
+    .card-hover {
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    }
+
+    .card-hover::before {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(37,99,235,.14), transparent 34%),
+        radial-gradient(circle at 82% 30%, rgba(124,58,237,.12), transparent 28%),
+        radial-gradient(circle at 50% 110%, rgba(16,185,129,.14), transparent 35%);
+      opacity: 0;
+      transition: opacity .35s ease;
+      pointer-events: none;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      border-color: rgba(37, 99, 235, 0.32);
+      box-shadow: 0 28px 90px rgba(37, 99, 235, 0.14);
+    }
+
+    .card-hover:hover::before {
+      opacity: 1;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ========= CTA Button ========= */
+    .ai-cta {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(rgba(255,255,255,.92), rgba(255,255,255,.82)) padding-box,
+        linear-gradient(135deg, rgba(37,99,235,.75), rgba(124,58,237,.72)) border-box;
+      color: #1d4ed8;
+      font-weight: 700;
+      letter-spacing: .02em;
+      box-shadow: 0 12px 40px rgba(37,99,235,.12);
+      transition: transform .3s ease, box-shadow .3s ease, color .3s ease;
+    }
+
+    .ai-cta::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 130%, rgba(16,185,129,.35), transparent 54%);
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+
+    .ai-cta .default-text,
+    .ai-cta .status-text {
+      position: relative;
+      z-index: 1;
+      transition: transform .3s ease, opacity .3s ease;
+      white-space: nowrap;
+    }
+
+    .ai-cta .status-text {
+      position: absolute;
+      opacity: 0;
+      transform: translateY(16px);
+      color: #047857;
+      font-size: 13px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .ai-cta:hover {
+      transform: translateY(-3px);
+      color: #047857;
+      box-shadow: 0 0 0 1px rgba(16,185,129,.28), 0 22px 64px rgba(16,185,129,.22);
+    }
+
+    .ai-cta:hover::after {
+      opacity: 1;
+    }
+
+    .ai-cta:hover .default-text {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+
+    .ai-cta:hover .status-text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ghost-cta {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      color: #334155;
+      font-weight: 700;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(37,99,235,.14);
+      box-shadow: 0 12px 42px rgba(15,23,42,.05);
+      transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+
+    .ghost-cta:hover {
+      transform: translateY(-3px);
+      border-color: rgba(16,185,129,.42);
+      box-shadow: 0 20px 60px rgba(16,185,129,.16);
+    }
+
+    /* ========= Typography ========= */
+    .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(37,99,235,.07);
+      color: #1d4ed8;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .section-kicker::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--mint);
+      box-shadow: 0 0 0 6px rgba(16,185,129,.12);
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 6px;
+      background: linear-gradient(180deg, var(--tech-blue), var(--premium-purple));
+      animation: blink .8s step-end infinite;
+      vertical-align: -0.1em;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
+    /* ========= Scroll Reveal ========= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========= Decorative Data Lines ========= */
+    .data-line {
+      position: absolute;
+      height: 1px;
+      width: 190px;
+      background: linear-gradient(90deg, transparent, rgba(37,99,235,.34), rgba(16,185,129,.24), transparent);
+      animation: dataFlow 5.2s linear infinite;
+      opacity: .55;
+    }
+
+    @keyframes dataFlow {
+      0% { transform: translateX(-30px); opacity: 0; }
+      18% { opacity: .65; }
+      100% { transform: translateX(90px); opacity: 0; }
+    }
+
+    /* ========= Form ========= */
+    .form-input {
+      width: 100%;
+      border-radius: 22px;
+      border: 1px solid rgba(37,99,235,.14);
+      background: rgba(255,255,255,.72);
+      padding: 14px 16px;
+      outline: none;
+      color: #0f172a;
+      transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+
+    .form-input:focus {
+      border-color: rgba(37,99,235,.48);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+      background: rgba(255,255,255,.95);
+    }
+
+    /* ========= Mobile Menu ========= */
+    .mobile-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s ease;
+    }
+
+    .mobile-panel.open {
+      max-height: 420px;
+    }
+
+    @media (max-width: 767px) {
+      html {
+        scroll-padding-top: 80px;
+      }
+
+      .ai-cta, .ghost-cta {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+  <!-- Background Layers -->
+  <canvas id="particleCanvas"></canvas>
+  <div class="site-bg-grid"></div>
+
+  <!-- Header / Navigation -->
+  <header id="siteHeader" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="mx-auto max-w-7xl px-5 lg:px-8">
+      <div class="mt-4 glass rounded-full px-4 py-3">
+        <div class="flex items-center justify-between">
+          <a href="#hero" class="group flex items-center gap-3" aria-label="回到首頁">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-600 text-sm font-black text-white shadow-glow">
+              LL
+            </span>
+            <span class="leading-tight">
+              <span class="block text-sm font-black tracking-wide text-slate-950">李逸萍</span>
+              <span class="block text-[11px] font-semibold uppercase tracking-[.18em] text-slate-500">Digital Experience Consultant</span>
+            </span>
+          </a>
+
+          <nav class="hidden items-center gap-7 text-sm font-bold text-slate-600 md:flex" aria-label="主選單">
+            <a class="nav-link hover:text-blue-600 transition" href="#about">About</a>
+            <a class="nav-link hover:text-blue-600 transition" href="#services">Services</a>
+            <a class="nav-link hover:text-blue-600 transition" href="#ai-solutions">AI Solutions</a>
+            <a class="nav-link hover:text-blue-600 transition" href="#portfolio">Portfolio</a>
+            <a class="nav-link hover:text-blue-600 transition" href="#blog">Blog</a>
+            <a class="nav-link hover:text-blue-600 transition" href="#contact">Contact</a>
+          </nav>
+
+          <a href="https://calendar.app.google/QZTvS9433tJHJcwT6" target="_blank" rel="noopener" class="hidden rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-xl transition hover:-translate-y-0.5 hover:bg-blue-700 md:inline-flex">
+            預約諮詢
+          </a>
+
+          <button id="menuButton" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-blue-100 bg-white/70 text-slate-800 md:hidden" aria-label="開啟選單" aria-expanded="false">
+            <span class="relative block h-4 w-5">
+              <span class="absolute left-0 top-0 h-0.5 w-5 bg-slate-800 transition"></span>
+              <span class="absolute left-0 top-2 h-0.5 w-5 bg-slate-800 transition"></span>
+              <span class="absolute left-0 top-4 h-0.5 w-5 bg-slate-800 transition"></span>
+            </span>
+          </button>
+        </div>
+
+        <div id="mobilePanel" class="mobile-panel md:hidden">
+          <nav class="grid gap-2 px-2 pb-2 pt-5 text-sm font-bold text-slate-700" aria-label="手機選單">
+            <a class="mobile-link rounded-2xl px-4 py-3 hover:bg-blue-50" href="#about">About</a>
+            <a class="mobile-link rounded-2xl px-4 py-3 hover:bg-blue-50" href="#services">Services</a>
+            <a class="mobile-link rounded-2xl px-4 py-3 hover:bg-blue-50" href="#ai-solutions">AI Solutions</a>
+            <a class="mobile-link rounded-2xl px-4 py-3 hover:bg-blue-50" href="#portfolio">Portfolio</a>
+            <a class="mobile-link rounded-2xl px-4 py-3 hover:bg-blue-50" href="#blog">Blog</a>
+            <a class="mobile-link rounded-2xl px-4 py-3 hover:bg-blue-50" href="#contact">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="relative flex min-h-screen items-center overflow-hidden px-5 pb-20 pt-36 lg:px-8 lg:pt-40">
+      <span class="ambient-orb left-[8%] top-[20%] h-48 w-48 bg-blue-200/60"></span>
+      <span class="ambient-orb right-[10%] top-[22%] h-64 w-64 bg-violet-200/60" style="animation-delay: -2s;"></span>
+      <span class="ambient-orb bottom-[10%] left-[45%] h-56 w-56 bg-emerald-100/70" style="animation-delay: -4s;"></span>
+
+      <div class="data-line right-[8%] top-[25%] hidden lg:block"></div>
+      <div class="data-line left-[12%] bottom-[22%] hidden lg:block" style="animation-delay: -2.4s;"></div>
+
+      <div class="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_.95fr]">
+        <div class="relative z-10 reveal">
+          <div class="mb-7 inline-flex items-center gap-3 rounded-full border border-blue-100 bg-white/70 px-4 py-2 text-xs font-extrabold uppercase tracking-[.18em] text-blue-700 shadow-sm backdrop-blur">
+            <span class="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_6px_rgba(16,185,129,.14)]"></span>
+            Digital Experience · UI/UX · Culture Translation
+          </div>
+
+          <h1 class="max-w-5xl text-5xl font-black leading-[1.03] tracking-[-0.06em] text-slate-950 sm:text-6xl lg:text-7xl">
+            <span id="typewriter"></span><span class="typing-cursor"></span>
+          </h1>
+
+          <p class="mt-8 max-w-2xl text-lg leading-9 text-slate-600">
+            我結合數位設計、內容轉譯、使用者體驗與數據觀察，協助文化、教育與公共服務領域，打造更清楚、更具識別度，也更能被理解與使用的數位體驗。
+          </p>
+
+          <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+            <a href="https://calendar.app.google/QZTvS9433tJHJcwT6" target="_blank" rel="noopener" class="ai-cta">
+              <span class="default-text">預約設計諮詢</span>
+              <span class="status-text">Status: Ready to Connect</span>
+            </a>
+            <a href="#portfolio" class="ghost-cta">
+              查看作品案例
+            </a>
+          </div>
+
+          <div class="mt-12 grid max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
+            <div class="glass rounded-3xl p-4">
+              <p class="text-2xl font-black text-slate-950">20+</p>
+              <p class="mt-1 text-xs font-bold uppercase tracking-wide text-slate-500">Years</p>
+            </div>
+            <div class="glass rounded-3xl p-4">
+              <p class="text-2xl font-black text-slate-950">UI/UX</p>
+              <p class="mt-1 text-xs font-bold uppercase tracking-wide text-slate-500">Design</p>
+            </div>
+            <div class="glass rounded-3xl p-4">
+              <p class="text-2xl font-black text-slate-950">GA</p>
+              <p class="mt-1 text-xs font-bold uppercase tracking-wide text-slate-500">Insight</p>
+            </div>
+            <div class="glass rounded-3xl p-4">
+              <p class="text-2xl font-black text-slate-950">AI</p>
+              <p class="mt-1 text-xs font-bold uppercase tracking-wide text-slate-500">Strategy</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative z-10 reveal">
+          <div class="glass-strong relative overflow-hidden rounded-[2rem] p-6 sm:p-8">
+            <div class="absolute right-6 top-6 h-28 w-28 rounded-full bg-blue-400/10 blur-2xl"></div>
+            <div class="absolute bottom-4 left-6 h-32 w-32 rounded-full bg-emerald-300/20 blur-2xl"></div>
+
+            <div class="relative z-10">
+              <div class="mb-8 flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-black uppercase tracking-[.22em] text-blue-600">Experience Map</p>
+                  <h2 class="mt-2 text-2xl font-black tracking-tight text-slate-950">Design Intelligence Dashboard</h2>
+                </div>
+                <div class="flex gap-2">
+                  <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+                  <span class="h-3 w-3 rounded-full bg-blue-400"></span>
+                  <span class="h-3 w-3 rounded-full bg-violet-400"></span>
+                </div>
+              </div>
+
+              <div class="grid gap-4">
+                <div class="rounded-3xl border border-blue-100 bg-white/70 p-5">
+                  <div class="mb-3 flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-700">Content Translation</span>
+                    <span class="text-xs font-black text-emerald-600">92%</span>
+                  </div>
+                  <div class="h-2 overflow-hidden rounded-full bg-slate-100">
+                    <div class="h-full w-[92%] rounded-full bg-gradient-to-r from-blue-600 to-emerald-500"></div>
+                  </div>
+                </div>
+
+                <div class="rounded-3xl border border-blue-100 bg-white/70 p-5">
+                  <div class="mb-3 flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-700">UI Clarity</span>
+                    <span class="text-xs font-black text-blue-600">88%</span>
+                  </div>
+                  <div class="h-2 overflow-hidden rounded-full bg-slate-100">
+                    <div class="h-full w-[88%] rounded-full bg-gradient-to-r from-blue-600 to-violet-600"></div>
+                  </div>
+                </div>
+
+                <div class="rounded-3xl border border-blue-100 bg-white/70 p-5">
+                  <div class="mb-4 flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-700">Experience Signals</span>
+                    <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">Live</span>
+                  </div>
+
+                  <div class="grid grid-cols-3 gap-3">
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                      <p class="text-lg font-black text-slate-950">UX</p>
+                      <p class="mt-1 text-[11px] font-semibold text-slate-500">Flow</p>
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                      <p class="text-lg font-black text-slate-950">SEO</p>
+                      <p class="mt-1 text-[11px] font-semibold text-slate-500">GEO</p>
+                    </div>
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                      <p class="text-lg font-black text-slate-950">GA</p>
+                      <p class="mt-1 text-[11px] font-semibold text-slate-500">Data</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-3xl bg-slate-950 p-5 text-white">
+                  <p class="text-xs font-black uppercase tracking-[.20em] text-emerald-300">Core Mission</p>
+                  <p class="mt-3 text-lg font-bold leading-8">
+                    Translate complex public knowledge into elegant, usable and trusted digital experience.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="relative px-5 py-24 lg:px-8 lg:py-32">
+      <div class="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
+        <div class="reveal">
+          <span class="section-kicker">About</span>
+          <h2 class="mt-6 max-w-3xl text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+            以設計判斷，讓複雜內容成為清楚、有溫度的數位體驗。
+          </h2>
+
+          <div class="mt-8 space-y-6 text-[17px] leading-9 text-slate-600">
+            <p>
+              我是李逸萍，現任康百企業有限公司互動網路多媒體部企劃設計指導，擁有二十年以上數位內容、互動多媒體、網站企劃與視覺設計指導經驗。從早期互動式多媒體光碟、教育學習軟體，到文化主題網站、博物館導覽系統與行動應用服務，我長期投入數位設計與內容轉譯工作。
+            </p>
+            <p>
+              我的專長不只在於把畫面做得美，而是能將複雜的知識、文化脈絡、服務流程與使用者需求，重新整理為清楚、具吸引力且易於操作的數位介面。這讓我在文化、教育、公共服務與博物館導覽等專案中，能同時兼顧內容深度、視覺識別、操作動線與實際執行可行性。
+            </p>
+            <p>
+              職涯早期曾任艾德高科技股份有限公司、昺揚資訊與甲尚科技股份有限公司等單位之美術設計與藝術指導，累積紮實的視覺設計、介面規劃與多媒體製作能力。近年則更聚焦於公共文化、文學、地方知識與教育服務的數位呈現，並結合 Google Analytics 數據觀察，將使用者行為回饋到網站內容與介面優化。
+            </p>
+            <p>
+              面對 AI 時代，我將 AI 視為提升內容規劃、設計判斷與使用者分析的輔助能力，持續以專業企劃、創新設計與穩健執行力，協助組織打造更具辨識度、信任感與影響力的數位體驗。
+            </p>
+          </div>
+        </div>
+
+        <div class="relative reveal">
+          <span class="ambient-orb -right-10 top-10 h-40 w-40 bg-blue-200/50"></span>
+          <div class="glass-strong rounded-[2rem] p-6 sm:p-8">
+            <div class="mb-8 flex justify-center">
+              <div class="relative">
+                <div class="absolute -inset-4 rounded-full border-2 border-slate-200/70"></div>
+                <div class="aspect-square w-64 overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-[0_30px_60px_-30px_rgba(15,23,42,0.35)] sm:w-72">
+                  <img src="mywork/李逸萍.jpg" alt="李逸萍肖像" class="h-full w-full object-cover object-[center_85%]" />
+                </div>
+              </div>
+            </div>
+            <div class="p-5 text-center">
+              <p class="text-xs font-black uppercase tracking-[.24em] text-blue-600">About Me</p>
+              <h3 class="mt-3 text-2xl font-black tracking-tight text-slate-950">李逸萍</h3>
+              <p class="mt-2 text-sm font-semibold text-slate-500">數位內容企劃・互動設計指導</p>
+            </div>
+
+            <div class="mb-7">
+              <p class="text-xs font-black uppercase tracking-[.22em] text-blue-600">Brand Profile</p>
+              <h3 class="mt-3 text-3xl font-black tracking-tight text-slate-950">Laura Lee</h3>
+              <p class="mt-2 text-sm font-semibold text-slate-500">企劃設計指導 / 多媒體設計顧問</p>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div class="card-hover rounded-3xl border border-blue-100 bg-white/70 p-5">
+                <div class="card-inner">
+                  <p class="text-3xl font-black text-slate-950">20+</p>
+                  <p class="mt-2 text-sm font-bold text-slate-600">Years Experience</p>
+                </div>
+              </div>
+              <div class="card-hover rounded-3xl border border-blue-100 bg-white/70 p-5">
+                <div class="card-inner">
+                  <p class="text-3xl font-black text-slate-950">UI/UX</p>
+                  <p class="mt-2 text-sm font-bold text-slate-600">& Multimedia</p>
+                </div>
+              </div>
+              <div class="card-hover rounded-3xl border border-blue-100 bg-white/70 p-5">
+                <div class="card-inner">
+                  <p class="text-3xl font-black text-slate-950">Culture</p>
+                  <p class="mt-2 text-sm font-bold text-slate-600">Education / Public Service</p>
+                </div>
+              </div>
+              <div class="card-hover rounded-3xl border border-blue-100 bg-white/70 p-5">
+                <div class="card-inner">
+                  <p class="text-3xl font-black text-slate-950">Data</p>
+                  <p class="mt-2 text-sm font-bold text-slate-600">Informed Design</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 rounded-3xl bg-gradient-to-br from-slate-950 to-blue-950 p-6 text-white">
+              <p class="text-xs font-black uppercase tracking-[.22em] text-emerald-300">Design Principle</p>
+              <p class="mt-4 text-xl font-bold leading-9">
+                讓資訊被理解，讓介面被信任，讓每一次互動都回到人的需求。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="relative bg-white/60 px-5 py-24 lg:px-8 lg:py-32">
+      <div class="mx-auto max-w-7xl">
+        <div class="mx-auto max-w-3xl text-center reveal">
+          <span class="section-kicker">Services</span>
+          <h2 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+            多媒體設計顧問服務
+          </h2>
+          <p class="mt-6 text-lg leading-9 text-slate-600">
+            從使用者需求、內容架構、操作動線與視覺風格切入，提供兼具美感、易用性與執行可行性的設計建議，協助品牌、機關與文化教育單位建立清楚一致的數位體驗。
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <article class="service-card card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path d="M4 5.5h16v10H4z"></path>
+                  <path d="M8 20h8M12 15.5V20"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-slate-950">網頁 UI/UX 設計顧問</h3>
+              <p class="mt-4 leading-8 text-slate-600">
+                協助網站架構、版面層級、導覽流程與互動細節優化，讓內容更容易被看見與理解。
+              </p>
+            </div>
+          </article>
+
+          <article class="service-card card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <rect x="7" y="2.5" width="10" height="19" rx="2"></rect>
+                  <path d="M10 18h4"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-slate-950">APP 視覺設計顧問</h3>
+              <p class="mt-4 leading-8 text-slate-600">
+                規劃行動介面的視覺節奏、元件一致性與操作可讀性，建立穩定且精緻的使用體驗。
+              </p>
+            </div>
+          </article>
+
+          <article class="service-card card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"></path>
+                  <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-slate-950">多媒體導覽系統視覺設計</h3>
+              <p class="mt-4 leading-8 text-slate-600">
+                針對展館、文化空間與導覽情境，設計清楚、沉浸且便於操作的多媒體介面。
+              </p>
+            </div>
+          </article>
+
+          <article class="service-card card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path d="M12 3l3 6 6 .9-4.5 4.3 1.1 6.1L12 17.4 6.4 20.3l1.1-6.1L3 9.9 9 9z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-slate-950">品牌識別指導</h3>
+              <p class="mt-4 leading-8 text-slate-600">
+                建立品牌視覺方向、識別一致性與應用原則，讓數位服務具備更清楚的辨識度。
+              </p>
+            </div>
+          </article>
+
+          <article class="service-card card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path d="M4 20h16"></path>
+                  <path d="M6 16l4-9 4 6 2-3 2 6"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-slate-950">視覺風格指導</h3>
+              <p class="mt-4 leading-8 text-slate-600">
+                釐清版面語氣、色彩系統、字體層級與影像風格，讓網站視覺更成熟、穩定。
+              </p>
+            </div>
+          </article>
+
+          <article class="service-card card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <div class="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                  <path d="M5 12l4 4L19 6"></path>
+                  <path d="M4 4h16v16H4z"></path>
+                </svg>
+              </div>
+              <h3 class="text-xl font-black text-slate-950">視覺設計評鑑</h3>
+              <p class="mt-4 leading-8 text-slate-600">
+                從版面、易讀性、互動一致性與品牌感進行診斷，提出具體可執行的改善建議。
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Solutions Section -->
+    <section id="ai-solutions" class="relative overflow-hidden px-5 py-24 lg:px-8 lg:py-32">
+      <div class="absolute left-0 top-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-blue-100/70 blur-3xl"></div>
+      <div class="absolute right-0 top-20 h-80 w-80 translate-x-1/3 rounded-full bg-emerald-100/70 blur-3xl"></div>
+
+      <div class="relative mx-auto max-w-7xl">
+        <div class="grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+          <div class="reveal">
+            <span class="section-kicker">AI × Data</span>
+            <h2 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+              以 AI 與數據輔助設計判斷，而不是取代人的洞察。
+            </h2>
+            <p class="mt-6 text-lg leading-9 text-slate-600">
+              AI 在這裡不是炫技，而是協助梳理內容、發現問題、建立策略與加速設計決策的工具。真正的核心，仍是對使用者、內容脈絡與服務目標的理解。
+            </p>
+
+            <div class="mt-8 glass rounded-[2rem] p-6">
+              <p class="text-xs font-black uppercase tracking-[.20em] text-blue-600">Design Method</p>
+              <div class="mt-5 grid gap-4">
+                <div class="flex items-center gap-4">
+                  <span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-black text-white">1</span>
+                  <span class="font-bold text-slate-700">內容結構化</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-black text-white">2</span>
+                  <span class="font-bold text-slate-700">使用者行為觀察</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span class="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-600 text-sm font-black text-white">3</span>
+                  <span class="font-bold text-slate-700">介面與體驗優化</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-6 md:grid-cols-2">
+            <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+              <div class="card-inner">
+                <p class="text-sm font-black uppercase tracking-[.18em] text-blue-600">01</p>
+                <h3 class="mt-4 text-2xl font-black text-slate-950">AI-Assisted Content Strategy</h3>
+                <p class="mt-4 leading-8 text-slate-600">
+                  以 AI 輔助內容架構、標題層級、FAQ、SEO/GEO 內容策略規劃，讓資訊更容易被搜尋、理解與引用。
+                </p>
+              </div>
+            </article>
+
+            <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+              <div class="card-inner">
+                <p class="text-sm font-black uppercase tracking-[.18em] text-violet-600">02</p>
+                <h3 class="mt-4 text-2xl font-black text-slate-950">Data-Informed UX Optimization</h3>
+                <p class="mt-4 leading-8 text-slate-600">
+                  結合 Google Analytics 觀察使用者行為，優化網站動線、內容呈現、到達頁與互動流程。
+                </p>
+              </div>
+            </article>
+
+            <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+              <div class="card-inner">
+                <p class="text-sm font-black uppercase tracking-[.18em] text-emerald-600">03</p>
+                <h3 class="mt-4 text-2xl font-black text-slate-950">Digital Experience Audit</h3>
+                <p class="mt-4 leading-8 text-slate-600">
+                  針對網站、APP、多媒體導覽系統進行視覺與體驗評鑑，提出清楚可執行的改善方向。
+                </p>
+              </div>
+            </article>
+
+            <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+              <div class="card-inner">
+                <p class="text-sm font-black uppercase tracking-[.18em] text-blue-600">04</p>
+                <h3 class="mt-4 text-2xl font-black text-slate-950">Culture & Knowledge Translation</h3>
+                <p class="mt-4 leading-8 text-slate-600">
+                  將文化、教育、公共服務內容轉譯為清楚、可理解且具吸引力的數位介面。
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="relative bg-slate-50/80 px-5 py-24 lg:px-8 lg:py-32">
+      <div class="mx-auto max-w-7xl">
+        <div class="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <div class="max-w-3xl reveal">
+            <span class="section-kicker">Portfolio</span>
+            <h2 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+              從互動多媒體到公共文化平台，讓內容被看見，也被理解。
+            </h2>
+          </div>
+          <p class="max-w-xl text-lg leading-9 text-slate-600 reveal">
+            作品涵蓋教育學習軟體、文化主題網站、博物館導覽系統、APP 視覺設計與文學地方知識平台。
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-blue-100 via-white to-violet-100 p-5">
+                <div class="h-full rounded-2xl border border-white/80 bg-white/45 shadow-inner"></div>
+              </div>
+              <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">互動式多媒體</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">空中英語教室互動式多媒體光碟</h3>
+              <p class="mt-3 leading-7 text-slate-600">以互動設計提升語言學習內容的可用性與參與感。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-violet-100 via-white to-blue-100 p-5">
+                <div class="grid h-full grid-cols-3 gap-2">
+                  <span class="rounded-xl bg-white/65"></span>
+                  <span class="rounded-xl bg-white/40"></span>
+                  <span class="rounded-xl bg-white/75"></span>
+                </div>
+              </div>
+              <span class="rounded-full bg-violet-50 px-3 py-1 text-xs font-black text-violet-700">教育學習軟體</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">非常多媒體天碟</h3>
+              <p class="mt-3 leading-7 text-slate-600">榮獲教育部第二屆金學獎第一名，展現教育內容數位化的早期創新成果。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-emerald-100 via-white to-blue-100 p-5">
+                <div class="h-full rounded-2xl border border-white/80 bg-[radial-gradient(circle_at_30%_30%,rgba(16,185,129,.22),transparent_32%),radial-gradient(circle_at_70%_62%,rgba(37,99,235,.20),transparent_30%)]"></div>
+              </div>
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">DVD 互動式光碟</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">行政院新聞局「美麗之島」</h3>
+              <p class="mt-3 leading-7 text-slate-600">將影像、導覽與互動結構整合為具敘事感的數位內容作品。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-blue-100 via-white to-emerald-100 p-5">
+                <div class="h-full rounded-2xl bg-white/60 p-3">
+                  <div class="mb-2 h-3 w-2/3 rounded-full bg-blue-200"></div>
+                  <div class="mb-2 h-3 w-1/2 rounded-full bg-emerald-200"></div>
+                  <div class="h-16 rounded-xl bg-slate-100"></div>
+                </div>
+              </div>
+              <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">文化主題網站</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">桃園市政府文化局「古蹟說故事」</h3>
+              <p class="mt-3 leading-7 text-slate-600">將地方文化資產轉化為可瀏覽、可學習、可延伸探索的網站體驗。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-violet-100 via-white to-emerald-100 p-5">
+                <div class="flex h-full items-center justify-center rounded-2xl bg-white/55">
+                  <span class="h-16 w-16 rounded-full border border-violet-200 bg-violet-100/50"></span>
+                </div>
+              </div>
+              <span class="rounded-full bg-violet-50 px-3 py-1 text-xs font-black text-violet-700">文化內容轉譯</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">客家委員會「女兒針線情」主題網</h3>
+              <p class="mt-3 leading-7 text-slate-600">以細緻視覺與內容架構呈現文化記憶、工藝脈絡與情感敘事。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-emerald-100 via-white to-blue-100 p-5">
+                <div class="grid h-full grid-cols-2 gap-2">
+                  <span class="rounded-2xl bg-white/70"></span>
+                  <span class="rounded-2xl bg-white/45"></span>
+                </div>
+              </div>
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">博物館導覽系統</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">蘭陽博物館全球資訊網與常設展導覽</h3>
+              <p class="mt-3 leading-7 text-slate-600">整合網站資訊與展場導覽需求，建立一致且易操作的數位服務體驗。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-blue-100 via-white to-violet-100 p-5">
+                <div class="mx-auto h-full w-20 rounded-3xl border border-blue-100 bg-white/75 p-2">
+                  <div class="h-full rounded-2xl bg-gradient-to-br from-blue-50 to-emerald-50"></div>
+                </div>
+              </div>
+              <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">APP 體驗設計</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">國立海洋科技博物館「尋找海科故事」APP</h3>
+              <p class="mt-3 leading-7 text-slate-600">以行動情境重新組織展覽內容，提升探索與導覽的連續性。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-violet-100 via-white to-blue-100 p-5">
+                <div class="h-full rounded-2xl bg-white/60 p-4">
+                  <div class="mb-3 h-4 w-3/4 rounded-full bg-violet-200"></div>
+                  <div class="mb-2 h-3 w-full rounded-full bg-slate-100"></div>
+                  <div class="mb-2 h-3 w-5/6 rounded-full bg-slate-100"></div>
+                  <div class="h-3 w-2/3 rounded-full bg-slate-100"></div>
+                </div>
+              </div>
+              <span class="rounded-full bg-violet-50 px-3 py-1 text-xs font-black text-violet-700">文學知識平台</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">台灣文學館台灣文學網</h3>
+              <p class="mt-3 leading-7 text-slate-600">讓文學知識、人物脈絡與資料內容更適合數位閱讀與查找。</p>
+            </div>
+          </article>
+
+          <article class="portfolio-card card-hover glass-strong rounded-[2rem] p-6 reveal">
+            <div class="card-inner">
+              <div class="mb-5 h-36 rounded-[1.5rem] bg-gradient-to-br from-emerald-100 via-white to-violet-100 p-5">
+                <div class="relative h-full rounded-2xl bg-white/60">
+                  <span class="absolute left-6 top-6 h-3 w-3 rounded-full bg-emerald-400"></span>
+                  <span class="absolute right-8 top-10 h-3 w-3 rounded-full bg-blue-400"></span>
+                  <span class="absolute bottom-7 left-1/2 h-3 w-3 rounded-full bg-violet-400"></span>
+                </div>
+              </div>
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">地方知識 APP</span>
+              <h3 class="mt-4 text-xl font-black text-slate-950">台灣文學地景閱讀與創作 APP</h3>
+              <p class="mt-3 leading-7 text-slate-600">將文學、地景與行動閱讀連結，建立具探索感的數位體驗。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="relative px-5 py-24 lg:px-8 lg:py-32">
+      <div class="mx-auto max-w-7xl">
+        <div class="mx-auto max-w-3xl text-center reveal">
+          <span class="section-kicker">Insights</span>
+          <h2 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+            技術與設計觀點
+          </h2>
+          <p class="mt-6 text-lg leading-9 text-slate-600">
+            從 AI 內容策略、公共文化網站 UX、Google Analytics 到多媒體導覽設計，整理可被實務應用的設計觀點。
+          </p>
+        </div>
+
+        <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">AI Strategy</span>
+              <h3 class="mt-5 text-xl font-black leading-8 text-slate-950">AI 時代的網站內容策略：從 SEO 到 GEO</h3>
+              <p class="mt-4 leading-7 text-slate-600">思考網站內容如何被搜尋引擎與生成式 AI 理解、引用與推薦。</p>
+              <a href="#consultation" class="mt-6 inline-flex font-black text-blue-600 hover:text-emerald-600">Read Insight →</a>
+            </div>
+          </article>
+
+          <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <span class="rounded-full bg-violet-50 px-3 py-1 text-xs font-black text-violet-700">Public UX</span>
+              <h3 class="mt-5 text-xl font-black leading-8 text-slate-950">公共文化網站如何做好使用者體驗</h3>
+              <p class="mt-4 leading-7 text-slate-600">從資訊架構、角色需求與內容層級建立可信賴的公共服務介面。</p>
+              <a href="#consultation" class="mt-6 inline-flex font-black text-blue-600 hover:text-emerald-600">Read Insight →</a>
+            </div>
+          </article>
+
+          <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">Analytics</span>
+              <h3 class="mt-5 text-xl font-black leading-8 text-slate-950">從 Google Analytics 看見網站優化線索</h3>
+              <p class="mt-4 leading-7 text-slate-600">用數據觀察使用者進入、停留與離開的脈絡，回饋設計決策。</p>
+              <a href="#consultation" class="mt-6 inline-flex font-black text-blue-600 hover:text-emerald-600">Read Insight →</a>
+            </div>
+          </article>
+
+          <article class="card-hover glass-strong rounded-[2rem] p-7 reveal">
+            <div class="card-inner">
+              <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">Multimedia</span>
+              <h3 class="mt-5 text-xl font-black leading-8 text-slate-950">多媒體導覽系統的視覺設計關鍵</h3>
+              <p class="mt-4 leading-7 text-slate-600">探討展場情境、閱讀距離、互動節奏與導覽介面的視覺設計原則。</p>
+              <a href="#consultation" class="mt-6 inline-flex font-black text-blue-600 hover:text-emerald-600">Read Insight →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dependencies Section -->
+    <section id="dependencies" class="relative bg-slate-50/80 px-5 py-24 lg:px-8 lg:py-32">
+      <div class="mx-auto max-w-7xl reveal">
+        <div class="mx-auto max-w-3xl text-center">
+          <span class="section-kicker">外部依賴庫 (Dependencies)</span>
+          <h2 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+            多元社群連結，像依賴庫一樣被快速引用。
+          </h2>
+          <p class="mt-6 text-lg leading-9 text-slate-600">
+            這裡展示我常用的社群與開源連結，方便您快速找到 LINE、Facebook、LinkedIn、GitHub 的資源入口。
+          </p>
+        </div>
+
+        <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <a href="https://aistudy.pse.is/linemdsgroup" target="_blank" rel="noopener" class="group flex items-center gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-6 py-6 transition hover:border-blue-300 hover:bg-blue-50">
+            <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#00c300] text-xl text-white shadow-glow">
+              <i class="fa-brands fa-line"></i>
+            </span>
+            <div>
+              <p class="text-sm font-bold uppercase tracking-[.15em] text-slate-400">LINE</p>
+              <p class="mt-1 text-lg font-black text-slate-950">加入社群</p>
+            </div>
+          </a>
+
+          <a href="https://www.facebook.com/MarketingDataScienceTMR/" target="_blank" rel="noopener" class="group flex items-center gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-6 py-6 transition hover:border-blue-300 hover:bg-blue-50">
+            <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1877f2] text-xl text-white shadow-glow">
+              <i class="fa-brands fa-facebook-f"></i>
+            </span>
+            <div>
+              <p class="text-sm font-bold uppercase tracking-[.15em] text-slate-400">Facebook</p>
+              <p class="mt-1 text-lg font-black text-slate-950">粉絲專頁</p>
+            </div>
+          </a>
+
+          <a href="https://www.linkedin.com/in/howardzhong/" target="_blank" rel="noopener" class="group flex items-center gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-6 py-6 transition hover:border-blue-300 hover:bg-blue-50">
+            <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0a66c2] text-xl text-white shadow-glow">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </span>
+            <div>
+              <p class="text-sm font-bold uppercase tracking-[.15em] text-slate-400">LinkedIn</p>
+              <p class="mt-1 text-lg font-black text-slate-950">職涯連結</p>
+            </div>
+          </a>
+
+          <a href="https://github.com/HowardNTUST" target="_blank" rel="noopener" class="group flex items-center gap-4 rounded-[1.75rem] border border-slate-200 bg-white/90 px-6 py-6 transition hover:border-blue-300 hover:bg-blue-50">
+            <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-950 text-xl text-white shadow-glow">
+              <i class="fa-brands fa-github"></i>
+            </span>
+            <div>
+              <p class="text-sm font-bold uppercase tracking-[.15em] text-slate-400">GitHub</p>
+              <p class="mt-1 text-lg font-black text-slate-950">開源作品</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consultation Section -->
+    <section id="consultation" class="relative px-5 py-24 lg:px-8 lg:py-32">
+      <div class="mx-auto max-w-7xl">
+        <div class="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 p-8 text-white shadow-2xl sm:p-12 lg:p-16 reveal">
+          <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl"></div>
+          <div class="absolute -bottom-24 left-1/4 h-72 w-72 rounded-full bg-emerald-400/20 blur-3xl"></div>
+
+          <div class="relative z-10 grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div class="max-w-3xl">
+              <p class="text-xs font-black uppercase tracking-[.24em] text-emerald-300">Consultation</p>
+              <h2 class="mt-5 text-4xl font-black leading-tight tracking-[-0.04em] sm:text-5xl">
+                讓網站、APP 與導覽系統，找到更精準的設計方向。
+              </h2>
+              <p class="mt-6 text-lg leading-9 text-blue-50/85">
+                如果你正在規劃網站改版、APP 視覺設計、多媒體導覽系統，或希望讓文化、教育與公共服務內容被更清楚地理解，我可以協助你從內容架構、視覺風格、使用者體驗與數據觀察中，找到更精準的設計方向。
+              </p>
+            </div>
+
+            <div class="lg:min-w-[240px]">
+              <a href="https://calendar.app.google/QZTvS9433tJHJcwT6" target="_blank" rel="noopener" class="ai-cta w-full bg-white">
+                <span class="default-text">預約設計諮詢</span>
+                <span class="status-text">Status: Ready to Connect</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="relative bg-white/70 px-5 py-24 lg:px-8 lg:py-32">
+      <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-start">
+        <div class="reveal">
+          <span class="section-kicker">Contact</span>
+          <h2 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl">
+            聯絡我
+          </h2>
+
+          <div class="mt-8 glass-strong rounded-[2rem] p-7">
+            <h3 class="text-2xl font-black text-slate-950">李逸萍</h3>
+            <p class="mt-2 font-bold text-blue-700">企劃設計指導 / 多媒體設計顧問</p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <span class="rounded-full bg-blue-50 px-4 py-2 text-sm font-bold text-blue-700">UI/UX</span>
+              <span class="rounded-full bg-violet-50 px-4 py-2 text-sm font-bold text-violet-700">APP 視覺</span>
+              <span class="rounded-full bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-700">多媒體導覽</span>
+              <span class="rounded-full bg-blue-50 px-4 py-2 text-sm font-bold text-blue-700">品牌視覺</span>
+              <span class="rounded-full bg-violet-50 px-4 py-2 text-sm font-bold text-violet-700">數據導向設計</span>
+            </div>
+
+            <p class="mt-7 leading-8 text-slate-600">
+              歡迎針對網站改版、公共文化內容轉譯、APP 視覺設計、多媒體導覽系統與數據導向介面優化進行初步諮詢。
+            </p>
+
+            <div class="mt-8 space-y-4 rounded-[2rem] bg-slate-50/80 p-6">
+              <p class="text-xs font-black uppercase tracking-[.22em] text-blue-600">核心產品與技術解決方案</p>
+              <div class="grid gap-4">
+                <a href="https://courses.taiwanmds.com/product/information?p=02c0c7b9ec7b11f0b3480242ac110002" target="_blank" rel="noopener" class="group flex items-start gap-4 rounded-3xl border border-blue-100 bg-white p-4 transition hover:border-blue-300 hover:bg-blue-50">
+                  <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-lg text-white">
+                    <i class="fa-solid fa-chart-line"></i>
+                  </span>
+                  <div>
+                    <p class="font-black text-slate-950">Vibe Coding：行銷數據分析學習圈</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-600">訂閱Vibe Coding行銷數據分析學習圈，跟著我們一同走入行銷數據分析與vibe coding自動化的世界。</p>
+                  </div>
+                </a>
+                <a href="https://judgai.com/" target="_blank" rel="noopener" class="group flex items-start gap-4 rounded-3xl border border-blue-100 bg-white p-4 transition hover:border-blue-300 hover:bg-blue-50">
+                  <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-600 text-lg text-white">
+                    <i class="fa-solid fa-robot"></i>
+                  </span>
+                  <div>
+                    <p class="font-black text-slate-950">保險機器人：當經驗成為奇點，AI更是保險未來的引擎</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-600">從經驗、法條到正確說明，奇點讓每位保險專業者擁有一位懂法的科技夥伴。</p>
+                  </div>
+                </a>
+                <a href="https://judgai.com/saymind" target="_blank" rel="noopener" class="group flex items-start gap-4 rounded-3xl border border-blue-100 bg-white p-4 transition hover:border-blue-300 hover:bg-blue-50">
+                  <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-600 text-lg text-white">
+                    <i class="fa-solid fa-microphone"></i>
+                  </span>
+                  <div>
+                    <p class="font-black text-slate-950">SayMind：一站式語音轉錄，AI 筆記整理，自動口條訓練</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-600">使用 LangChain 搭建的 RAG 系統，可上傳 PDF 並進行精準問答。</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <a href="https://calendar.app.google/QZTvS9433tJHJcwT6" target="_blank" rel="noopener" class="ai-cta mt-8">
+              <span class="default-text">預約諮詢</span>
+              <span class="status-text">Status: Ready to Connect</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="glass-strong rounded-[2rem] p-6 sm:p-8 reveal">
+          <p class="text-xs font-black uppercase tracking-[.22em] text-blue-600">填寫需求表單</p>
+          <h3 class="mt-3 text-3xl font-black tracking-tight text-slate-950">直接前往專案需求表單</h3>
+          <p class="mt-4 leading-8 text-slate-600">
+            為了讓需求更完整、溝通更精準，請透過下方按鈕前往 Google Form 填寫專案細節。
+          </p>
+
+          <a href="https://forms.gle/1r8nr9NDeR1SYUk29" target="_blank" rel="noopener" class="ai-cta mt-8 w-full justify-center">
+            <span class="default-text">前往 Google 表單</span>
+            <span class="status-text">Status: Fill out request form</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-blue-100 bg-white/80 px-5 py-10 lg:px-8">
+    <div class="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center">
+      <div>
+        <p class="text-lg font-black text-slate-950">李逸萍 Laura Lee</p>
+        <p class="mt-2 text-sm font-semibold text-slate-500">
+          Digital Content Planning · UI/UX · Multimedia Design · Culture Translation
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-5 text-sm font-bold text-slate-600">
+        <a href="#about" class="hover:text-blue-600">About</a>
+        <a href="#services" class="hover:text-blue-600">Services</a>
+        <a href="#ai-solutions" class="hover:text-blue-600">AI Solutions</a>
+        <a href="#portfolio" class="hover:text-blue-600">Portfolio</a>
+        <a href="#contact" class="hover:text-blue-600">Contact</a>
+      </div>
+
+      <p class="text-sm font-semibold text-slate-400">
+        © <span id="year"></span> Laura Lee. All Rights Reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    /*
+      李逸萍個人品牌網站
+      技術：HTML5 + Tailwind CDN + CSS Animation + Vanilla JavaScript + Canvas Particles
+      修改重點：
+      1. Hero 主標題：修改 typewriterText
+      2. 預約連結：搜尋 calendar.app.google
+      3. 服務與案例：修改對應 section 內文字
+      4. 色彩：可調整 :root CSS 變數與 Tailwind 設定
+    */
+
+    // =========================
+    // Mobile Navigation
+    // =========================
+    const menuButton = document.getElementById('menuButton');
+    const mobilePanel = document.getElementById('mobilePanel');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    menuButton.addEventListener('click', () => {
+      const isOpen = mobilePanel.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobilePanel.classList.remove('open');
+        menuButton.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // =========================
+    // Header Style on Scroll
+    // =========================
+    const siteHeader = document.getElementById('siteHeader');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        siteHeader.classList.add('drop-shadow-sm');
+      } else {
+        siteHeader.classList.remove('drop-shadow-sm');
+      }
+    });
+
+    // =========================
+    // Typewriter Effect
+    // =========================
+    const typewriterTarget = document.getElementById('typewriter');
+    const typewriterText = 'Until Marketing Data science is common sense';
+    let typeIndex = 0;
+
+    function typeWriter() {
+      if (typeIndex <= typewriterText.length) {
+        typewriterTarget.textContent = typewriterText.slice(0, typeIndex);
+        typeIndex++;
+        setTimeout(typeWriter, typeIndex < 8 ? 90 : 48);
+      }
+    }
+
+    window.addEventListener('load', typeWriter);
+
+    // =========================
+    // Scroll Reveal
+    // =========================
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${Math.min(index * 60, 260)}ms`;
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // =========================
+    // Contact Form Demo Interaction
+    // =========================
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+
+    contactForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(contactForm);
+      const name = (formData.get('name') || '').trim();
+      const email = (formData.get('email') || '').trim();
+      const service = (formData.get('service') || '').trim();
+
+      if (!name || !email || !service) {
+        formMessage.className = 'rounded-2xl bg-amber-50 px-5 py-4 text-sm font-bold text-amber-700';
+        formMessage.textContent = '請先填寫姓名、Email 與需求類型。此表單目前為前端互動示範，不會實際送出。';
+        return;
+      }
+
+      formMessage.className = 'rounded-2xl bg-emerald-50 px-5 py-4 text-sm font-bold text-emerald-700';
+      formMessage.textContent = `謝謝 ${name}，已收到你的需求方向提示。正式諮詢請點選「預約設計諮詢」連結安排時間。`;
+      contactForm.reset();
+    });
+
+    // =========================
+    // Current Year
+    // =========================
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // =========================
+    // Canvas Particle Background
+    // =========================
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width;
+    let height;
+    let particles = [];
+    let animationFrameId;
+
+    const particleConfig = {
+      count: 72,
+      maxDistance: 150,
+      speed: 0.28,
+      radius: 1.7
+    };
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth * window.devicePixelRatio;
+      height = canvas.height = window.innerHeight * window.devicePixelRatio;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+      createParticles();
+    }
+
+    function createParticles() {
+      const displayWidth = window.innerWidth;
+      const displayHeight = window.innerHeight;
+      const count = displayWidth < 768 ? 42 : particleConfig.count;
+
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * displayWidth,
+        y: Math.random() * displayHeight,
+        vx: (Math.random() - 0.5) * particleConfig.speed,
+        vy: (Math.random() - 0.5) * particleConfig.speed,
+        r: Math.random() * particleConfig.radius + 0.6,
+        alpha: Math.random() * 0.45 + 0.18
+      }));
+    }
+
+    function drawParticles() {
+      const displayWidth = window.innerWidth;
+      const displayHeight = window.innerHeight;
+
+      ctx.clearRect(0, 0, displayWidth, displayHeight);
+
+      // Soft data flow lines
+      ctx.save();
+      ctx.globalAlpha = 0.16;
+      for (let i = 0; i < 6; i++) {
+        const y = (displayHeight / 7) * (i + 1);
+        const offset = (Date.now() * 0.018 + i * 120) % (displayWidth + 260);
+        const gradient = ctx.createLinearGradient(offset - 220, y, offset, y);
+        gradient.addColorStop(0, 'rgba(37,99,235,0)');
+        gradient.addColorStop(0.5, 'rgba(37,99,235,.48)');
+        gradient.addColorStop(1, 'rgba(16,185,129,0)');
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(offset - 240, y);
+        ctx.lineTo(offset, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -20) p.x = displayWidth + 20;
+        if (p.x > displayWidth + 20) p.x = -20;
+        if (p.y < -20) p.y = displayHeight + 20;
+        if (p.y > displayHeight + 20) p.y = -20;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(37, 99, 235, ${p.alpha})`;
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const q = particles[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < particleConfig.maxDistance) {
+            const opacity = (1 - distance / particleConfig.maxDistance) * 0.17;
+            ctx.strokeStyle = `rgba(37, 99, 235, ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(animationFrameId);
+      resizeCanvas();
+      drawParticles();
+    });
+
+    resizeCanvas();
+    drawParticles();
+  </script>
+</body>
+</html>
